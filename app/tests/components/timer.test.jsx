@@ -17,7 +17,7 @@ describe('Timer', () => {
       timer.handleSetTimer(0);
 
       expect(timer.state.count).toBe(0);
-      expect(timer.state.countdownStatus).toBe('started');
+      expect(timer.state.timerStatus).toBe('started');
 
       setTimeout(() => {
         expect(timer.state.count).toBe(1);
@@ -28,13 +28,14 @@ describe('Timer', () => {
     it('should pause countdown on paused status', (done) => {
       var timer = TestUtils.renderIntoDocument(<Timer/>);
       timer.handleSetTimer(0);
-      timer.handleStatusChange('paused');
+      timer.handleStatusChange('started');
 
       setTimeout(() => {
+        timer.handleStatusChange('paused');
         expect(timer.state.count).toBe(3);
-        expect(timer.state.countdownStatus).toBe('paused');
+        expect(timer.state.timerStatus).toBe('paused');
         done();
-      }, 1001);
+      }, 3001);
     });
 
     it('should reset countdown on stopped status', (done) => {
@@ -44,7 +45,7 @@ describe('Timer', () => {
 
       setTimeout(() => {
         expect(timer.state.count).toBe(0);
-        expect(timer.state.countdownStatus).toBe('stopped');
+        expect(timer.state.timerStatus).toBe('stopped');
         done();
       }, 1001);
     });
